@@ -20,8 +20,8 @@ struct AddItemView: View {
 
     var body: some View {
         NavigationStack {
-            SwiftUI.Form {
-                SwiftUI.Section {
+            Form {
+                Section {
                     TextField("Name", text: $name)
                     DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
                     TextField("Shelf Life (days)", text: $shelfLifeDays)
@@ -50,7 +50,7 @@ struct AddItemView: View {
                     Text("Item Details")
                 }
 
-                SwiftUI.Section {
+                Section {
                     Button("Add Item") {
                         if let days = Int(shelfLifeDays), !name.isEmpty {
                             self.viewModel.foodItems.append(FoodItem(
