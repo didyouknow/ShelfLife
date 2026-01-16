@@ -22,4 +22,11 @@ class FoodInventoryViewModel: ObservableObject {
         // Logic for calculating freshness (for example, as a percentage)
         return Double(item.daysRemaining) / 100.0
     }
+    
+    // Toggle favorite status for a food item
+    func toggleFavorite(id: UUID) {
+        if let index = foodItems.firstIndex(where: { $0.id == id }) {
+            foodItems[index].isFavorite.toggle()
+        }
+    }
 }

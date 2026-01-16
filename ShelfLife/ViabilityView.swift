@@ -63,23 +63,16 @@ struct ViabilityView: View {
 
     func generateRecipeSuggestions() {
         let ingredients = viewModel.getViableItems().map { $0.name }.joined(separator: ", ")
-        let prompt = "I have \(ingredients). What recipes can I make?"
-
-        // TODO: Replace this placeholder with actual model inference
-        // Make sure TinyLLaMA is loaded and callable
-        if let response = runLlamaPrompt(prompt) {
-            recipeSuggestions = response
-        } else {
-            recipeSuggestions = "Could not generate suggestions."
+        if ingredients.isEmpty {
+            recipeSuggestions = "No viable items available. Add some foods to get suggestions."
+            return
         }
+        // Stubbed fallback suggestions (no model dependency)
+        recipeSuggestions = """
+        • Simple stir-fry with \(ingredients)
+        • Omelet or frittata using \(ingredients)
+        • Soup or salad featuring \(ingredients)
+        """
     }
 }
 
-// Temporary placeholder for AI model until real integration is ready
-func runLlamaPrompt(_ prompt: String) -> String? {
-    return """
-    • Spinach & Egg Omelet
-    • Garlic Roasted Veggies
-    • Breakfast Burrito with Leftovers
-    """
-}

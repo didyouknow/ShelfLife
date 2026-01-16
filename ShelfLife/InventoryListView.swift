@@ -21,33 +21,36 @@ struct FreshnessBarView: View {
 }
 
 struct InventoryListView: View {
-    @ObservedObject var viewModel = FoodInventoryViewModel()
+    @StateObject var viewModel = FoodInventoryViewModel()
     @State private var showingAddItem = false
+    private var items: [FoodItem] { viewModel.foodItems }
 
     var body: some View {
         NavigationView {
-            List(viewModel.foodItems.filter { $0.isActive }, id: \.id) { item in
-                HStack {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(item.name)
-                            .font(.headline)
-                        Text("Expires in \(item.daysRemaining) day(s)")
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                        
-                        FreshnessBarView(percentage: item.freshnessPercentage, color: item.freshnessColor)
-                    }
+            List {
+                ForEach(items) { item in
+                    HStack {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(item.name)
+                                .font(.headline)
+                            Text("Expires in \(item.daysRemaining) day(s)")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
 
-                    Spacer()
+                            FreshnessBarView(percentage: item.freshnessPercentage, color: item.freshnessColor)
+                        }
 
-                    Button(action: {
-                        viewModel.toggleFavorite(id: item.id)
-                    }) {
-                        Image(systemName: item.isFavorite ? "star.fill" : "star")
-                            .foregroundColor(.yellow)
+                        Spacer()
+
+                        Button(action: {
+                            viewModel.toggleFavorite(id: item.id)
+                        }) {
+                            Image(systemName: item.isFavorite ? "star.fill" : "star")
+                                .foregroundColor(.yellow)
+                        }
                     }
+                    .padding(.vertical, 4)
                 }
-                .padding(.vertical, 4)
             }
             .navigationTitle("ShelfLife")
             .toolbar {
