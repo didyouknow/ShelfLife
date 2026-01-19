@@ -21,7 +21,7 @@ struct FreshnessBarView: View {
 }
 
 struct InventoryListView: View {
-    @StateObject var viewModel = FoodInventoryViewModel()
+    @ObservedObject var viewModel: FoodInventoryViewModel
     @State private var showingAddItem = false
     private var items: [FoodItem] { viewModel.foodItems }
 

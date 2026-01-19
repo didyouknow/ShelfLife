@@ -20,8 +20,8 @@ struct AddItemView: View {
 
     var body: some View {
         NavigationStack {
-            SwiftUI.Form {
-                SwiftUI.Section {
+            Form(content: {
+                Section("Item Details") {
                     TextField("Name", text: $name)
                     DatePicker("Purchase Date", selection: $purchaseDate, displayedComponents: .date)
                     TextField("Shelf Life (days)", text: $shelfLifeDays)
@@ -38,30 +38,26 @@ struct AddItemView: View {
                             .foregroundColor(.gray)
                     }
 
-                    Button(action: {
+                    Button {
                         isShowingScanner = true
-                    }) {
+                    } label: {
                         Label("Scan Barcode", systemImage: "barcode.viewfinder")
                     }
                     .sheet(isPresented: $isShowingScanner) {
                         self.barcodeScannerSheet
                     }
-                } header: {
-                    Text("Item Details")
                 }
 
-                SwiftUI.Section {
+                Section {
                     Button("Add Item") {
                         if let days = Int(shelfLifeDays), !name.isEmpty {
                             self.viewModel.foodItems.append(FoodItem(
+                                id: UUID(),
                                 name: name,
                                 purchaseDate: purchaseDate,
                                 shelfLifeDays: days,
                                 isFavorite: false,
-                                isUsed: false,
-                                daysRemaining: days,
-                                freshnessPercentage: 1.0,
-                                freshnessColor: Color.green
+                                isUsed: false
                             ))
                             dismiss()
                         }
@@ -77,12 +73,15 @@ struct AddItemView: View {
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(Color.green.opacity(0.8))
                                 .frame(width: geo.size.width * 1.0, height: 10)
-                                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.gray, lineWidth: 1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Color.gray, lineWidth: 1)
+                                )
                         }
                         .frame(height: 10)
                     }
                 }
-            }
+            })
             .navigationTitle("Add New Item")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

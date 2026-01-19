@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @ObservedObject var viewModel = FoodInventoryViewModel()
+    @ObservedObject var viewModel: FoodInventoryViewModel
 
     var body: some View {
         NavigationView {
@@ -30,3 +30,4 @@ struct FavoritesView: View {
         }
     }
 }
+

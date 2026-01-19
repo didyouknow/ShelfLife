@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 
 struct ViabilityView: View {
-    @ObservedObject var viewModel = FoodInventoryViewModel()
+    @ObservedObject var viewModel: FoodInventoryViewModel
     @State private var recipeSuggestions: String = ""
     @State private var isModelReady: Bool = false
 
